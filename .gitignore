@@ -3,3 +3,5 @@ secret.cfg
 firebase_key.json
 *.pyc
 __pycache__
+.DS_Store
+*.db
