@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Critter</title>
+        <link rel="stylesheet" type="text/css" href="page.css" />
+    </head>
+    <body>
+        <ul>
+            {% for tweet in tweets %}
+                <li><a href='/p/{{tweet.poster_id}}'>{{tweet.poster_name}}</a>: {{tweet.text}}</li>
+            {% endfor %}
+        </ul>
+        {% if session['userid'] is undefined %}
+            <form action="/login">
+                <input type="submit" value="Login" />
+            </form>
+        {% else %}
+            <form action="/add" method="POST">
+                Enter tweet: <input type="text" id="text" name="text">
+            </form>
+            <form action="/logout" method="POST">
+                <input type="submit" value="Logout" />
+            </form>
+        {% endif %}
+    </body>
+</html>

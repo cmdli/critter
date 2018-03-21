@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Critter</title>
+    </head>
+    <body>
+        <h1>{{user.name}}</h1>
+        <ul>
+        {% for tweet in tweets %}
+            <li>{{tweet.text}}</li>
+        {% endfor %}
+        </ul>
+        {% if followed %}
+        <form action="/unfollow" method="post">
+            <input type="hidden" name="id" value="{{user.id}}" />
+            <input type="submit" value="Unfollow" />
+        </form>
+        {% else %}
+        <form action="/follow" method="post">
+            <input type="hidden" name="id" value="{{user.id}}" />
+            <input type="submit" value="Follow" />
+        </form>
+        {% endif %}
+    </body>
+</html>

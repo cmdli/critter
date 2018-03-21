@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <script src="https://cdn.firebase.com/libs/firebaseui/2.6.2/firebaseui.js"></script>
+        <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.6.2/firebaseui.css" />
+        <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-auth.js"></script>
+        <script type="text/javascript">
+            // Initialize Firebase
+            var config = {
+              apiKey: "AIzaSyDZI9f9iOWwS3DSRF0wMJqXv1oLLRtvgrA",
+              authDomain: "critter-sign-in-1520737312328.firebaseapp.com",
+              projectId: "critter-sign-in-1520737312328",
+            };
+            firebase.initializeApp(config);
+
+            // FirebaseUI config.
+            var uiConfig = {
+                signInSuccessUrl: '/login',
+                signInOptions: [
+                    // Leave the lines as is for the providers you want to offer your users.
+                    firebase.auth.EmailAuthProvider.PROVIDER_ID
+                ],
+                credentialHelper: firebaseui.auth.CredentialHelper.NONE,
+                // Terms of service url.
+                tosUrl: '<your-tos-url>',
+                callbacks: {
+                    signInSuccess: function(currentUser, credential, redirectUrl) {
+                        console.log("Current user: " + JSON.stringify(currentUser));
+                        console.log("Credential: " + credential);
+                        console.log("redirectURL: " + redirectUrl);
+                        currentUser.getIdToken(true).then(function(token) {
+                            var form = document.createElement('form');
+                            form.setAttribute("method","POST");
+                            form.setAttribute("action","/login");
+                            var tokenField = document.createElement('input');
+                            tokenField.setAttribute('type','hidden');
+                            tokenField.setAttribute('name','token');
+                            tokenField.setAttribute('value',token);
+                            form.appendChild(tokenField);
+                            document.body.appendChild(form);
+                            form.submit();
+                        }).catch(function(error) {
+                            console.log(error);
+                        });
+                        return false;
+                    }
+                }
+            };
+
+            // Initialize the FirebaseUI Widget using Firebase.
+            var ui = new firebaseui.auth.AuthUI(firebase.auth());
+            // The start method will wait until the DOM is loaded.
+            ui.start('#firebaseui-auth-container', uiConfig);
+          </script>
+        </head>
+    <body>
+        <h1>Yo, please log in</h1>
+        <div id="firebaseui-auth-container"></div>
+    </body>
+</html>
