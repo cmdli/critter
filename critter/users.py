@@ -4,7 +4,7 @@ from firebase_admin import auth
 from flask import session
 
 from critter import app
-import database
+import critter.database as database
 
 FIREBASE_CRED = app.config.get('FIREBASE_CRED',None)
 if FIREBASE_CRED:

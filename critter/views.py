@@ -1,31 +1,12 @@
 
-from flask import Flask, g, session, request, redirect, url_for, render_template, abort
 import sqlite3
 import os
 import random
+from flask import Flask, g, session, request, redirect, url_for, render_template, abort
 
-## App Setup
-
-app = Flask(__name__, static_folder='static', static_url_path='')
-app.config.from_object(__name__)
-app.config.update(dict(
-    DATABASE=os.path.join(app.root_path, 'critter.db'),
-))
-app.config.from_pyfile('secret.cfg', silent=True)
-print('Config: ' + str(app.config))
-
-import database
-import users
-
-@app.before_request
-def session_length():
-    session.permanent = True # Default to 31 days expiration
-
-@app.errorhandler(401)
-def unauthorized_response():
-    return redirect('/')
-
-## Endpoints
+from critter import app
+import critter.users as users
+import critter.database as database
 
 @app.route('/')
 def main():
@@ -113,6 +94,3 @@ def unfollow():
         return redirect('/p/' + followed)
     else:
         return redirect('/')
-
-if __name__ == "__main__":
-    app.run()
