@@ -49,6 +49,7 @@ def login(token):
     userinfo = decode_login_token(token)
     if not userinfo:
         return False
+    print(userinfo)
     user = create_user_if_necessary(userinfo)
     session['userid'] = user['id']
     return True

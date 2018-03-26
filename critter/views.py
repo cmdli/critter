@@ -2,6 +2,7 @@
 import sqlite3
 import os
 import random
+import time
 from flask import Flask, g, session, request, redirect, url_for, render_template, abort
 
 from critter import app
@@ -11,22 +12,26 @@ import critter.database as database
 @app.route('/')
 def main():
     db = database.get_db()
-    if users.is_logged_in():
-        print(users.current_user_id())
-        tweets = db.execute('select poster_id,poster_name,text from tweets ' +
-                         'inner join (select * from follows where follower=?) on followed=poster_id',
-                         [users.current_user_id()]).fetchall()
-        return render_template('feed.html', tweets=tweets)
-    else:
-        cur = db.execute('select poster_id,poster_name,text from tweets')
-        tweets = cur.fetchall()
-        return render_template('feed.html', tweets=tweets)
+    cur = db.execute('select poster_id,poster_name,time,text from tweets order by time')
+    tweets = cur.fetchall()
+    return render_template('feed.html', tweets=tweets)
+
+@app.route('/feed')
+def feed():
+    if not users.is_logged_in():
+        return redirect('/')
+    db = database.get_db()
+    print(users.current_user_id())
+    tweets = db.execute('select poster_id,poster_name,time,text from tweets ' +
+                        'inner join (select * from follows where follower=?) on followed=poster_id order by time',
+                        [users.current_user_id()]).fetchall()
+    return render_template('feed.html', tweets=tweets)
 
 @app.route('/p/<userid>')
 def profile(userid):
     user = users.get_user_info(userid)
     db = database.get_db()
-    tweets = db.execute('select poster_name,text from tweets where poster_id=?',[userid]).fetchall()
+    tweets = db.execute('select poster_name,time,time,text from tweets where poster_id=? order by time',[userid]).fetchall()
     followed = False
     if users.is_logged_in():
         followed = db.execute('select * from follows where follower=? and followed=?',
@@ -60,8 +65,9 @@ def add():
         abort(401)
     user = users.current_user_info()
     db = database.get_db()
-    db.cursor().execute('insert into tweets (poster_id,poster_name,text) values (?,?,?)',
-                        [user['id'],user['name'],request.form['text']])
+    current_time = int(time.time())
+    db.cursor().execute('insert into tweets (poster_id,poster_name,time,text) values (?,?,?,?)',
+                        [user['id'],user['name'],current_time,request.form['text']])
     db.commit()
     return redirect('/')
 
