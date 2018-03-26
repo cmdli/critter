@@ -6,9 +6,22 @@
         <link rel="stylesheet" type="text/css" href="page.css" />
     </head>
     <body>
+        <h1>
+            Critter
+        </h1>
+        <div class="content">
         <ul>
             {% for tweet in tweets %}
-                <li><a href='/p/{{tweet.poster_id}}'>{{tweet.poster_name}}</a>: {{tweet.text}}</li>
+            <div class="clearfix">
+                <li>
+                    <div class='poster_name'>
+                        <a href='/p/{{tweet.poster_id}}'>{{tweet.poster_name}}</a>
+                    </div>
+                    <div class='poster_text'>
+                        {{tweet.text}}
+                    </div>
+                </li>
+            </div>
             {% endfor %}
         </ul>
         {% if session['userid'] is undefined %}
@@ -23,5 +36,6 @@
                 <input type="submit" value="Logout" />
             </form>
         {% endif %}
+        </div>
     </body>
 </html>
