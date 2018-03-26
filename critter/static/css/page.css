@@ -15,21 +15,19 @@ ul {
 }
 
 li {
-    background: blue;
-    border: 1px solid black;
+    /*background: #AAAAAA;
+    border: 1px solid black;*/
 }
 
 .poster_text {
-    max-width:50em;
-    background: pink;
+    max-width:40em;
 }
 
 .poster_name {
-    width: 10em;
-    background: cyan;
+    width: 15em;
     text-align:right;
-    float:left;
     margin-right:1em;
+    float:left;
 }
 
 .clearfix::after {

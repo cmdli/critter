@@ -3,25 +3,18 @@
     <head>
         <meta charset="UTF-8">
         <title>Critter</title>
-        <link rel="stylesheet" type="text/css" href="page.css" />
+        <link rel="stylesheet" type="text/css" href="css/page.css" />
     </head>
     <body>
         <header>
-            <h1>
-                Critter
-            </h1>
+            <h1>Critter</h1>
         </header>
         <div class="content">
         <ul>
             {% for tweet in tweets %}
             <div class="clearfix">
                 <li>
-                    <div class='poster_name'>
-                        <a href='/p/{{tweet.poster_id}}'>{{tweet.poster_name}}</a>
-                    </div>
-                    <div class='poster_text'>
-                        {{tweet.text}}
-                    </div>
+                    <div class='poster_name'><a href='/p/{{tweet.poster_id}}'>{{tweet.poster_name}}</a></div><div class='poster_text'>{{tweet.text}}</div>
                 </li>
             </div>
             {% endfor %}
