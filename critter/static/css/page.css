@@ -35,3 +35,18 @@ li {
     clear: both;
     display: table;
 }
+.title-bar {
+    background-color: gray;
+}
+.title-bar * {
+    display: inline;
+    padding-right: 0.25rem;
+    padding-left: 0.25rem;
+}
+.title-bar h1 {
+    padding: 0.2rem 1.0rem 0.2rem 1.0rem;
+    font-size: 1.5rem;
+}
+/*.title-bar a {
+    display: inline;
+}*/
