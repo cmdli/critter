@@ -23,6 +23,7 @@ Tasks
 - [x] Add following for a user and display unified list of tweets from people followed
 - [ ] Add Bootstrap/better styling to frontend
 - [ ] Use React for web components
+- [ ] Write Bot to stress test server
 
 Technical Components
 ------
