@@ -46,9 +46,7 @@ def login():
         return render_template('login.html')
     else: # POST
         token = request.form['token']
-        if not token:
-            return redirect('/login')
-        if not users.login(token):
+        if not token or not users.login(token):
             return redirect('/login')
         else:
             return redirect('/')
